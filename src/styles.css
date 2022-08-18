@@ -1,0 +1,40 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  height: 100vh;
+  width: 100%;
+  background-color: gray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.temp-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 80%;
+  width: 50%;
+  background-color: green;
+  justify-content: space-around;
+}
+
+.temp-gameboard {
+  width: 25rem;
+  height: 25rem;
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  grid-template-rows: repeat(10, 1fr);
+}
+
+.temp-square {
+  border: 1px solid black;
+}
+
+.hidden {
+  display: none;
+}
