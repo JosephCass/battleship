@@ -19,14 +19,14 @@ class Ship {
 let shipsSizes = [5, 4, 3, 3, 2];
 
 async function placePlayerShips(shipSizes) {
-  shipSizes.forEach(function (curr, index) {
-    let pShip = new Ship(curr);
+  for (let size of shipSizes) {
+    let pShip = new Ship(size);
 
     //Return an array of the positions of a ship
-    // let position = getPlacementFromUI(curr);
+    let position = getPlacementFromUI(curr);
     human.ships.push(pShip);
     human.positions.push(position);
-  });
+  }
 }
 
 function placeComputerShips() {}
