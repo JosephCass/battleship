@@ -10,7 +10,7 @@ module.exports = {
   devtool: "inline-source-map",
   devServer: {
     static: path.resolve(__dirname, "src"),
-    port: 5001,
+    port: 5500,
     open: true,
     hot: true,
   },

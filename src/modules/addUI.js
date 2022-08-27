@@ -1,7 +1,19 @@
+import { human } from "./player";
+import { createPlayerBoard } from "./generatePlayerBoard";
+import {
+  createComputerBoard,
+  generateComputerPositions,
+  addComputerBoardFunctionality,
+} from "./generateComputerBoard";
+
+const tempContainer = document.querySelector(".temp-container");
 const tempPlayerPlacement = document.querySelector(".temp-gameboard");
 const rotateBtn = document.querySelector(".temp-btn");
 
 let vertical = false;
+let positions = [];
+let shipSizes = [5, 4, 3, 3, 2];
+let currentPiece;
 
 // Changes position of ships to either be horizontal or vertical when choosing the positions
 rotateBtn.addEventListener("click", function (e) {
@@ -36,7 +48,7 @@ function handleHorizontal(e, size) {
   for (let x = 0; x < size; x++) {
     let currClass = document.querySelector(`.${baseText}${classIndex + x}`);
     if (currClass && currClass.classList[2] === currentRow) {
-      currClass.style.backgroundColor = "blue";
+      currClass.style.backgroundColor = "aqua";
       currClass.classList.add("hovered");
     }
   }
@@ -44,21 +56,16 @@ function handleHorizontal(e, size) {
 
 // Handles the horizontal hovering functionality when moving mouse out of a certain area
 function handleHorizontalOut(e, size) {
-  let hoveredClass = e.target.classList[1];
-  let classIndex = parseInt(hoveredClass.slice(12));
-  let baseText = hoveredClass.slice(0, 12);
-  for (let x = 0; x < size; x++) {
-    let currClass = document.querySelector(`.${baseText}${classIndex + x}`);
-    if (currClass) {
-      currClass.classList.remove("hovered");
+  let hovered = document.querySelectorAll(".hovered");
 
-      if (currClass.classList.contains("checked")) {
-        currClass.style.backgroundColor = "pink";
-      } else if (currClass) {
-        currClass.style.backgroundColor = "green";
-      }
+  hovered.forEach(function (curr) {
+    curr.classList.remove("hovered");
+    if (curr.classList.contains("checked")) {
+      curr.style.backgroundColor = "yellow";
+    } else {
+      curr.style.backgroundColor = "white";
     }
-  }
+  });
 }
 
 // Handles the vertical hovering functionality when moving mouse into a certain area
@@ -73,7 +80,7 @@ function handleVertical(e, size) {
       `.${baseText}${classIndex + x * 10}`
     );
     if (currClass && currClass.classList[3] === currentColumn) {
-      currClass.style.backgroundColor = "blue";
+      currClass.style.backgroundColor = "aqua";
       currClass.classList.toggle("hovered");
     }
   }
@@ -81,23 +88,16 @@ function handleVertical(e, size) {
 
 // Handles the vertical hovering functionality when moving mouse out of a certain area
 function handleVerticalOut(e, size) {
-  let hoveredClass = e.target.classList[1];
-  let classIndex = parseInt(hoveredClass.slice(12));
-  let baseText = hoveredClass.slice(0, 12);
-  for (let x = 0; x < size; x++) {
-    let currClass = document.querySelector(
-      `.${baseText}${classIndex + x * 10}`
-    );
-    if (currClass) {
-      currClass.classList.toggle("hovered");
+  let hovered = document.querySelectorAll(".hovered");
 
-      if (currClass.classList.contains("checked")) {
-        currClass.style.backgroundColor = "pink";
-      } else if (currClass) {
-        currClass.style.backgroundColor = "green";
-      }
+  hovered.forEach(function (curr) {
+    curr.classList.remove("hovered");
+    if (curr.classList.contains("checked")) {
+      curr.style.backgroundColor = "yellow";
+    } else {
+      curr.style.backgroundColor = "white";
     }
-  }
+  });
 }
 
 // Checks columns when placing a piece
@@ -131,11 +131,12 @@ function checkColumn(e, size) {
 
   let shipPos = [];
   allHovered.forEach(function (curr) {
-    curr.style.backgroundColor = "pink";
+    curr.style.backgroundColor = "yellow";
     curr.classList.add("checked");
     shipPos.push(curr.classList[1]);
   });
-  return shipPos;
+  currentPiece++;
+  human.positions.push(shipPos);
 }
 
 //Checks rows when placing a piece
@@ -156,7 +157,6 @@ function checkRow(e, size) {
       return;
     }
   }
-
   // Checks if the current hovered squares in the row are valid before adding it as a position
   for (let x = 0; x < size; x++) {
     let currClass = document.querySelector(`.${baseText}${classIndex + x}`);
@@ -168,46 +168,55 @@ function checkRow(e, size) {
   //Highlights the selected Positions pink and pushes those positions to an array
   let shipPos = [];
   allHovered.forEach(function (curr) {
-    curr.style.backgroundColor = "pink";
+    curr.style.backgroundColor = "yellow";
     curr.classList.add("checked");
     shipPos.push(curr.classList[1]);
   });
-  return shipPos;
+  currentPiece++;
+  human.positions.push(shipPos);
 }
 
 // Adds a ship position to the board
 function addNewPosition(e, size) {
   if (vertical) {
-    return checkColumn(e, size);
+    checkColumn(e, size);
   } else {
-    return checkRow(e, size);
+    checkRow(e, size);
   }
 }
 
 // Function that handles player choosing positions for game (hovering blue squares & selected pink squares)
-function getPlacementFromUI(size) {
-  let position;
-  tempPlayerPlacement.addEventListener("mouseover", function (e) {
+function getPlacementFromUI() {
+  currentPiece = 0;
+
+  tempPlayerPlacement.addEventListener("mouseover", function (event) {
     if (vertical) {
-      handleVertical(e, size);
+      handleVertical(event, shipSizes[currentPiece]);
     } else {
-      handleHorizontal(e, size);
+      handleHorizontal(event, shipSizes[currentPiece]);
     }
   });
 
-  tempPlayerPlacement.addEventListener("mouseout", function (e) {
+  tempPlayerPlacement.addEventListener("mouseout", function (event) {
     if (vertical) {
-      handleVerticalOut(e, size);
+      handleVerticalOut(event, shipSizes[currentPiece]);
     } else {
-      handleHorizontalOut(e, size);
+      handleHorizontalOut(event, shipSizes[currentPiece]);
     }
   });
 
-  tempPlayerPlacement.addEventListener("mouseup", function (e) {
-    position = addNewPosition(e, size);
+  tempPlayerPlacement.addEventListener("mouseup", function (event) {
+    addNewPosition(event, shipSizes[currentPiece]);
+    if (currentPiece === 5) {
+      tempContainer.classList.add("hidden");
+      createPlayerBoard();
+      createComputerBoard();
+      generateComputerPositions();
+      addComputerBoardFunctionality();
+      //remove display
+      //render gameboard
+    }
   });
-
-  return position;
 }
 
 export { createBoard, getPlacementFromUI };
