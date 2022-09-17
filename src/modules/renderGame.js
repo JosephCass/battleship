@@ -1,4 +1,4 @@
-import { human } from "./player";
+import { human } from "./player.js";
 
 // create a computer player object
 // randomly decide the computers positions

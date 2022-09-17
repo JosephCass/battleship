@@ -1,7 +1,7 @@
-import { human, computer } from "./player";
-import { gamedata } from "../app";
+import { human, computer } from "./player.js";
+import { gamedata } from "../app.js";
 
-let gameContainer = document.querySelector(".main-display");
+let gameContainer = document.querySelector(".main-display.js");
 
 let shipSizes = [5, 4, 3, 3, 2];
 

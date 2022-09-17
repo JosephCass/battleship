@@ -1,6 +1,6 @@
-import { createBoard } from "./modules/addUI";
-import { GameBoard } from "./modules/gameBoard";
-import { Player } from "./modules/player";
+import { createBoard } from "./modules/addUI.js";
+import { GameBoard } from "./modules/gameBoard.js";
+import { Player } from "./modules/player.js";
 
 // let posit = getPlacementFromUI(5);
 // console.log(posit);

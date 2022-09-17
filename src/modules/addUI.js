@@ -1,10 +1,10 @@
-import { human } from "./player";
-import { createPlayerBoard } from "./generatePlayerBoard";
+import { human } from "./player.js";
+import { createPlayerBoard } from "./generatePlayerBoard.js";
 import {
   createComputerBoard,
   generateComputerPositions,
   addComputerBoardFunctionality,
-} from "./generateComputerBoard";
+} from "./generateComputerBoard.js";
 
 const tempContainer = document.querySelector(".temp-container");
 const tempPlayerPlacement = document.querySelector(".temp-gameboard");

@@ -1,7 +1,7 @@
-import { getPlacementFromUI } from "./addUI";
-import { human, computer, Player } from "./player";
-import { Ship } from "./ship";
-import { generateComputerAttack } from "./generateComputerBoard";
+import { getPlacementFromUI } from "./addUI.js";
+import { human, computer, Player } from "./player.js";
+import { Ship } from "./ship.js";
+import { generateComputerAttack } from "./generateComputerBoard.js";
 
 let shipLengths = [5, 4, 3, 3, 2];
 

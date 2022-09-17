@@ -1,4 +1,4 @@
-import { human } from "./player";
+import { human } from "./player.js";
 
 let gameContainer = document.querySelector(".main-display");
 
