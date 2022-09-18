@@ -1,6 +1,8 @@
 import { createBoard } from "./modules/addUI.js";
 import { GameBoard } from "./modules/gameBoard.js";
 import { Player } from "./modules/player.js";
+import style from "./styles.css";
+// import rotateImg from "./assets/rotate.svg";
 
 // let posit = getPlacementFromUI(5);
 // console.log(posit);

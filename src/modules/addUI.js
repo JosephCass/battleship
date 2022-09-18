@@ -5,6 +5,7 @@ import {
   generateComputerPositions,
   addComputerBoardFunctionality,
 } from "./generateComputerBoard.js";
+import style from "../styles.css";
 
 const tempContainer = document.querySelector(".temp-container");
 const tempPlayerPlacement = document.querySelector(".temp-gameboard");
